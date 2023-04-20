@@ -1,0 +1,213 @@
+\documentclass[a4paper,UTF-8,12pt]{ctexbook}
+
+%章节样式
+\usepackage[Sonny]{fncychap}
+
+\usepackage[marginparwidth={4cm},lmargin={0cm}, rmargin={5cm}]{geometry}%排版
+%a4版面，页边距1英寸,showframe 增加边框的参数。
+% 设置为A4纸，边距适中模式（永中office）
+\geometry{%
+	width = 210mm,%
+	height = 297mm,
+	left = 31.8mm,%
+	right = 31.8mm,%
+	top = 25.4mm,%
+	bottom = 25.4mm,%
+	bindingoffset=5mm%装订
+}
+
+%\hyphenpenalty = 1000% 断字设置，值越大，断字越少。
+%\setlength{\parindent}{2em}% 缩进
+%\setlength{\parskip}{0.5ex} % 段间距
+
+\usepackage{cite} %引用
+\usepackage{amsmath}
+%\numberwithin{equation}{section}%公式 按 章节编号
+\usepackage{amsfonts}
+
+\usepackage{amssymb}%公式
+\usepackage{amsthm}%定理环境
+\renewcommand{\proofname}{\indent\bf 证明}
+\newtheorem{defn}{定义}[section]
+\newtheorem*{defn*}{定义}
+\newtheorem{Assumption}{假设}[section]
+\newtheorem{Lemma}{引理}[section]
+\newtheorem{thm}{定理}
+%\newtheorem{name}[counter]{text}[section]
+
+%\usepackage{ntheorem}%定理环境，使用这个会使\maketitle版式出问题
+\usepackage{bm}%加粗
+
+\usepackage{mathrsfs}
+
+
+\usepackage{multirow}%表格列合并宏包，\multirow命令.
+\usepackage{tabularx}%表格等宽，\begin{tabularx}命令.
+	
+	\usepackage{tcolorbox}%盒子
+	\tcbuselibrary{skins, breakable}% 支持文本框跨页
+	\usepackage[english]{babel}% 载入美式英语断字模板
+	
+	\usepackage{graphicx}
+	\usepackage{float}
+	\usepackage{subfigure} %插入多图时用子图显示的宏包
+	
+	%\usepackage{algorithm,algorithmic}%算法
+	\usepackage[ruled]{algorithm2e}
+	
+	\usepackage{listings}   %代码块
+	\usepackage{xcolor}
+	\definecolor{codegreen}{rgb}{0,0.6,0}
+	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+	\definecolor{codepurple}{rgb}{0.58,0,0.82}
+	\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+	%设置代码块
+	\lstdefinestyle{mystyle}{
+		backgroundcolor=\color{backcolour},   
+		commentstyle=\color{codegreen},
+		keywordstyle=\color{magenta},
+		numberstyle=\tiny\color{codegray},
+		stringstyle=\color{codepurple},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+	}
+	
+	\lstset{style=mystyle,                                    
+	}
+	
+	\usepackage{appendix}%附录
+	
+	\usepackage{hyperref}%可以生成pdf书签，可以跳转
+	\hypersetup{
+		colorlinks=true,%引用部分会显示颜色
+		linkcolor=blue, %引用是蓝色
+		urlcolor=red, %网址引用颜色选择红色
+		citecolor=blue,
+		pdftitle={Famaselect notes},%这个命令会使用pdf阅读器打开时左上角显示这个内容
+	}
+	
+	
+	%侧栏笔记
+	\usepackage{marginnote}
+	\setlength{\marginparwidth}{4cm}%设置宽度
+	%\renewcommand*{\raggedrightmarginnote}{}
+	\renewcommand*{\marginfont}{\color{violet}\footnotesize}%fonts
+	\renewcommand*{\footnotesize}{\scriptsize\kaishu}%更改字体为楷书和大小
+	
+	%运用此命令就可加入侧栏笔记\normalmarginpar\marginnote{}
+	
+	%图注
+	\usepackage{caption}
+	
+	%参考文献
+	\usepackage[round]{natbib}
+	%\usepackage{gbt7714}
+	%\bibliographystyle{unsrtnat}
+	%\bibliographystyle{gbt7714-numerical}%国标2015
+    %\setlength{\bibsep}{0ex} %缩小参考文献之间间距
+	
+	%画图
+	\usepackage{tikz}
+	
+	%表格
+	\usepackage{booktabs}
+	
+	%字体
+	\pagestyle{headings}%页眉
+	\usepackage{CJK}
+	\usepackage{ctex}
+	\ctexset{space=true}%空格会显示
+	\ctexset{
+		section = {
+			%format用于设置章节标题全局格式，作用域为标题和编号
+			%字号为小三，字体为黑体，左对齐
+			%+号表示在原有格式下附加格式命令
+			format+ = \zihao{-3} \heiti \raggedright,
+		},
+		abstractname = {本文概要},
+		bibname = {文\quad 献}
+	}
+	
+	\usepackage{fancyhdr}
+	\fancyhf{}
+	\lhead{\textnormal{\kaishu\rightmark}}
+	\rhead{--\ \thepage\ --}
+	\pagestyle{fancy}
+	%\addtolength{\headwidth}{\marginparsep}
+	%\addtolength{\headwidth}{\marginparwidth}%增加横线长度
+	
+	\usepackage{indentfirst} %首行缩进
+	\setlength{\parindent}{2em}
+	\setlength{\parskip}{0.5em}%段落间距0.5
+	
+	%opening
+	\title{MCMC BOOK\\ (Markov Chain Monte Carlo)}
+	\author{WRH}
+	\date{}
+	%序言
+	\usepackage{blindtext}
+	\newcommand{\prefacename}{Preface}
+	\newenvironment{preface}{
+		\vspace*{\stretch{2}}
+		{\noindent \bfseries \Huge \prefacename}
+		\begin{center}
+			% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+			\thispagestyle{plain}
+		\end{center}%
+	}
+	{\vspace*{\stretch{5}}}
+	
+	
+	
+	\begin{document}
+		\renewcommand{\proofname}{\indent\bf 证明}
+		\renewcommand{\qedsymbol}{$\blacksquare$}    % 证毕符号改成黑色的正方形
+		\CJKfamily{zhkai}
+		\maketitle
+		\thispagestyle{empty}%第一页无页
+		\pagestyle{empty}
+		
+		
+		\frontmatter
+		\pagenumbering{Roman} 
+		
+		\begin{preface}
+			\quad 蒙特卡罗的方法在工程、金融以及统计等领域应用十分广泛，蒙特卡罗技术的研究需要广泛领域的详细知识；例如，描述随机实验和过程的{\color{brown}概率}，分析数据的{\color{brown}统计}，有效实现算法的{\color{brown}计算科学}，以及制定和解决优化问题的{\color{brown}数学规划}. 一般运用起来，若没有充足的理论基础，很难去实施，本书的目的就是为了便于查找和运用相关方法.
+			
+			
+		\end{preface}
+		
+		
+		\clearpage
+		
+		\tableofcontents
+		
+		\clearpage
+		\listoffigures
+		
+		\clearpage
+		\listoftables
+		
+		
+		
+		\mainmatter
+		\chapter{均匀随机数的生成}
+		本章概述了生成均匀随机数的主要技术和算法，包括那些基于线性递归、模2算术和这些组合的技术和算法.
+		\section{随机数}
+		任何蒙特卡罗方法的核心都是一个随机数生成器：一个产生无限流的过程
+		$$U_1,U_2,U_3,\dots,\sim Dist$$
+		是根据某些概率分布$Dist$的独立同分布(iid)的随机变量. 当该分布是在区间(0,1)（即$Dist = (0,1)$）上的均匀分布时，该生成器被称为均匀随机数生成器. 大多数计算机语言已经包含了一个内置的统一随机数生成器. 用户通常只被要求输入一个初始数字，称为\textbf{Seed}，在调用时，随机数生成器在区间(0,1)上产生一系列独立的均匀随机变量序列. 例如，在MATLAB中，由\textbf{rand}函数提供.
+		
+		\subsection{好的随机数生成器的性质}
+
+	\end{document}
+
