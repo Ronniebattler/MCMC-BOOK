@@ -1,0 +1,227 @@
+\documentclass[a4paper,UTF-8,12pt]{ctexbook}
+
+%章节样式
+\usepackage[Sonny]{fncychap}
+
+\usepackage[marginparwidth={4cm},lmargin={0cm}, rmargin={5cm}]{geometry}%排版
+%a4版面，页边距1英寸,showframe 增加边框的参数。
+% 设置为A4纸，边距适中模式（永中office）
+\geometry{%
+	width = 210mm,%
+	height = 297mm,
+	left = 31.8mm,%
+	right = 31.8mm,%
+	top = 25.4mm,%
+	bottom = 25.4mm,%
+	bindingoffset=5mm%装订
+}
+
+%\hyphenpenalty = 1000% 断字设置，值越大，断字越少。
+%\setlength{\parindent}{2em}% 缩进
+%\setlength{\parskip}{0.5ex} % 段间距
+
+\usepackage{cite} %引用
+\usepackage{amsmath}
+%\numberwithin{equation}{section}%公式 按 章节编号
+\usepackage{amsfonts}
+
+\usepackage{amssymb}%公式
+\usepackage{amsthm}%定理环境
+\numberwithin{equation}{chapter}
+\renewcommand{\proofname}{\indent\bf 证明}
+\newtheorem{defn}{定义}[chapter]
+\newtheorem*{defn*}{定义}
+\newtheorem{Assumption}{假设}[chapter]
+\newtheorem{Lemma}{引理}[chapter]
+\newtheorem{thm}{定理}
+\newtheorem{Algorithm}{算法}[chapter]
+%\newtheorem{name}[counter]{text}[section]
+
+%\usepackage{ntheorem}%定理环境，使用这个会使\maketitle版式出问题
+\usepackage{bm}%加粗
+
+\usepackage{mathrsfs}
+
+
+\usepackage{multirow}%表格列合并宏包，\multirow命令.
+\usepackage{tabularx}%表格等宽，\begin{tabularx}命令.
+	
+	\usepackage{tcolorbox}%盒子
+	\tcbuselibrary{skins, breakable}% 支持文本框跨页
+	\usepackage[english]{babel}% 载入美式英语断字模板
+	
+	\usepackage{graphicx}
+	\usepackage{float}
+	\usepackage{subfigure} %插入多图时用子图显示的宏包
+	
+	%\usepackage{algorithm,algorithmic}%算法
+	\usepackage[ruled]{algorithm2e}
+	
+	\usepackage{listings}   %代码块
+	\usepackage{xcolor}
+	\definecolor{codegreen}{rgb}{0,0.6,0}
+	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+	\definecolor{codepurple}{rgb}{0.58,0,0.82}
+	\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+	%设置代码块
+	\lstdefinestyle{mystyle}{
+		backgroundcolor=\color{backcolour},   
+		commentstyle=\color{codegreen},
+		keywordstyle=\color{magenta},
+		numberstyle=\tiny\color{codegray},
+		stringstyle=\color{codepurple},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+	}
+	
+	\lstset{style=mystyle,                                    
+	}
+	
+	\usepackage{appendix}%附录
+	
+	\usepackage{hyperref}%可以生成pdf书签，可以跳转
+	\hypersetup{
+		colorlinks=true,%引用部分会显示颜色
+		linkcolor=blue, %引用是蓝色
+		urlcolor=red, %网址引用颜色选择红色
+		citecolor=blue,
+		pdftitle={Famaselect notes},%这个命令会使用pdf阅读器打开时左上角显示这个内容
+	}
+	
+	
+	%侧栏笔记
+	\usepackage{marginnote}
+	\setlength{\marginparwidth}{4cm}%设置宽度
+	%\renewcommand*{\raggedrightmarginnote}{}
+	\renewcommand*{\marginfont}{\color{violet}\footnotesize}%fonts
+	\renewcommand*{\footnotesize}{\scriptsize\kaishu}%更改字体为楷书和大小
+	
+	%运用此命令就可加入侧栏笔记\normalmarginpar\marginnote{}
+	
+	%图注
+	\usepackage{caption}
+	
+	%参考文献
+	%\usepackage[round]{natbib}
+	\usepackage[square,sort&compress,numbers]{natbib}      
+	%# 引入natbib包，参考文献格式相关
+	\usepackage[sectionbib]{chapterbib}	
+	%\usepackage{gbt7714}
+	%\bibliographystyle{unsrtnat}
+	%\bibliographystyle{gbt7714-numerical}%国标2015
+    %\setlength{\bibsep}{0ex} %缩小参考文献之间间距
+	
+	%画图
+	\usepackage{tikz}
+	
+	%表格
+	\usepackage{booktabs}
+	
+	%字体
+	\pagestyle{headings}%页眉
+	\usepackage{CJK}
+	\usepackage{ctex}
+	\ctexset{space=true}%空格会显示
+
+	
+	\usepackage{fancyhdr}
+	\fancyhf{}
+	\lhead{\textnormal{\kaishu\rightmark}}
+	\rhead{--\ \thepage\ --}
+	\pagestyle{fancy}
+	%\addtolength{\headwidth}{\marginparsep}
+	%\addtolength{\headwidth}{\marginparwidth}%增加横线长度
+	
+	\usepackage{indentfirst} %首行缩进
+	\setlength{\parindent}{2em}
+	\setlength{\parskip}{0.5em}%段落间距0.5
+	
+	%opening
+	\title{MCMC BOOK\\ (Markov Chain Monte Carlo)}
+	\author{Renhe W.}
+	\date{}
+	%序言
+	\usepackage{blindtext}
+	\newcommand{\prefacename}{序}
+	\newenvironment{preface}{
+		\vspace*{\stretch{2}}
+		{\noindent \bfseries \Huge \prefacename}
+		\begin{center}
+			% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+			\thispagestyle{plain}
+		\end{center}%
+	}
+	{\vspace*{\stretch{5}}}
+	
+	\usepackage{bbding}%各种符号的包
+	
+	\begin{document}
+		\renewcommand{\proofname}{\indent\bf 证明}
+		\renewcommand{\qedsymbol}{$\blacksquare$}    % 证毕符号改成黑色的正方形
+		\CJKfamily{zhkai}
+		\maketitle
+		\thispagestyle{empty}%第一页无页
+		\pagestyle{empty}
+		
+		
+		\frontmatter
+		\pagenumbering{Roman} 
+		
+		\begin{preface}
+			\quad 蒙特卡罗的方法在工程、金融以及统计等领域应用十分广泛，蒙特卡罗技术的研究需要广泛领域的详细知识；例如，描述随机实验和过程的{\color{brown}概率}，分析数据的{\color{brown}统计}，有效实现算法的{\color{brown}计算科学}，以及制定和解决优化问题的{\color{brown}数学规划}. 一般运用起来，若没有充足的理论基础，很难去实施，本书的目的就是为了便于查找和运用相关方法.
+			
+			这本手册的目的是提供蒙特卡洛技术及相关主题的易于理解和全面的汇编。它包含了{\color{brown}理论（概述）}、{\color{brown}算法（伪代码和实际代码）}以及{\color{brown}应用}。该书旨在成为蒙特卡洛方法的基本指南，供高年级本科生和研究生/研究人员使用，以快速查阅想法、流程、公式、图表等内容，而不仅仅是一本研究专著或教材。
+			
+			由于蒙特卡洛方法可以用于多种方式和多种不同目的，因此该手册的组织方式是作为独立章节的集合，每个章节专注于一个单独的主题，而不是按照数学推导的方式组织。理论部分与书中讨论相关主题的其他部分进行了交叉引用，边栏的符号 \HandRight 指向相应的页码。理论部分以示例和MATLAB代码进行了说明。
+			
+		\end{preface}
+		
+		
+		\clearpage
+		
+		\tableofcontents
+		
+		\clearpage
+		\listoffigures
+		
+		\clearpage
+		\listoftables
+		
+		
+		
+		\mainmatter
+	
+	
+		\include{Chapter1/Chapter1.tex}
+		
+		\chapter{Markov Chain Monte Carlo}
+		\textbf{Markov chain Monte Carlo (MCMC)}从任意分布近似抽样的通用方法. 其主要思想是生成一个极限分布等于期望分布的马尔可夫链. 在本章中，我们将描述最杰出的MCMC算法：
+		\begin{enumerate}
+			\item Metropolis-Hastings算法，特别是独立采样器和随机游走采样器；
+			\item  吉布斯采样器，在贝叶斯分析中特别有用；
+			\item Hit-and-run采样器——通常用于具有高度约束参数空间的贝叶斯设置和一般的罕见事件模拟问题；
+			\item  Shake-and-bake算法是一种在多面体表面均匀分布点的实用方法；
+			\item Metropolis-Gibbs混合算法和多重尝试的Metropolis-Hastings方法，其中结合了来自不同的MCMC算法的思想；
+			\item 辅助可变采样器，如切片采样器和Swendsen-Wang算法；
+			\item Reversible-jump采样器，在贝叶斯模型选择中有应用.
+		\end{enumerate}
+		
+		\section{METROPOLIS-HASTINGS算法}
+	
+	
+		\include{Chapter9/Chapter9.tex}
+	
+	
+	
+		
+	\end{document}
+

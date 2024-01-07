@@ -1,0 +1,42 @@
+\chapter{Variance Reduction}
+
+\section{Importance Sampling}
+重要性抽样（Importance Sampling）是一种用于估计概率分布性质的统计方法，特别是在计算期望值或概率密度函数的归一化常数时非常有用. 它通过从一个不同的提议分布中抽样，来估计原始分布的性质. 重要性抽样是最重要的方差减小技术之一。这种技术对于估计罕见事件的概率（见第10章）特别有用. 标准设置是估计一个量:
+\begin{equation}
+	\ell=\mathbb{E}_f H(\mathbf{X})=\int H(\mathbf{x}) f(\mathbf{x}) \mathrm{d} \mathbf{x},
+\end{equation}
+其中$H$是一个实值函数，$f$是随机向量$\mathbf{X}$的概率密度，称为名义概率密度。下标$f$被添加到期望算子以表示它是相对于密度$f$进行的.
+
+令$g$是另一个概率密度，使得$H f$被$g$所主导. 也就是说，$g(\mathbf{x})=0 \Rightarrow H(\mathbf{x}) f(\mathbf{x})=0$。使用密度$g$，我们可以表示$\ell$如下：
+\begin{equation}
+	\ell=\int H(\mathbf{x}) \frac{f(\mathbf{x})}{g(\mathbf{x})} g(\mathbf{x}) \mathrm{d} \mathbf{x}=\mathbb{E}_g H(\mathbf{X}) \frac{f(\mathbf{X})}{g(\mathbf{X})}.
+\end{equation}
+因此，如果$\mathbf{X}_1, \ldots, \mathbf{X}_N \sim_{\text {idd }} g$，那么
+\begin{equation}
+	\widehat{\ell}=\frac{1}{N} \sum_{k=1}^N H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}
+\end{equation}
+是$\ell$的无偏估计。这个估计被称为重要性抽样估计，$g$被称为重要性抽样密度. 密度比值为：
+\begin{equation}
+	W(\mathbf{x})=\frac{f(\mathbf{x})}{g(\mathbf{x})},
+\end{equation}
+被称为似然比（本书定义），因为似然通常在统计学中被视为参数的函数（见第B.2节）.
+
+
+\begin{Algorithm}[重要性抽样估计]重要性抽样估计的具体算法步骤为：
+	\begin{enumerate}
+		\item 选择一个主导$Hf$的重要性抽样密度$g$.
+		\item  生成独立同分布的样本$\mathbf{X}_1, \ldots, \mathbf{X}_N \stackrel{\text{idd}}{\sim} g$，并令$Y_i=H\left(\mathbf{X}_i\right) f\left(\mathbf{X}_i\right) / g\left(\mathbf{X}_i\right), i=1, \ldots, N$.
+		\item 通过$\widehat{\ell}=\bar{Y}$估计$\ell$，并确定一个近似的$1-\alpha$置信区间，如下所示：
+		$$
+		\left(\widehat{\ell}-z_{1-\alpha / 2} \frac{S}{\sqrt{N}}, \widehat{\ell}+z_{1-\alpha / 2} \frac{S}{\sqrt{N}}\right),
+		$$
+		其中$z_\gamma$表示$\mathrm{N}(0,1)$分布的$\gamma$分位数，$S$是$Y_1, \ldots, Y_N$的样本标准差。
+	\end{enumerate}
+	
+	
+\end{Algorithm}
+
+
+%\renewcommand{\bibname}{References}
+%\bibliographystyle{plainnat}  % Choose a bibliographic style that suits your needs
+%\bibliography{chapter9}  % This is your BibTeX file for chapter 1

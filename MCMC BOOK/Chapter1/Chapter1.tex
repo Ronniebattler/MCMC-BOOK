@@ -1,0 +1,23 @@
+\chapter{均匀随机数的生成}
+这一章概述了生成均匀随机数的主要技术和算法，包括基于线性递归、模2算术以及这些方法的组合。提供了一系列理论和实证测试来评估均匀随机数生成器的质量. 将在第三章中讨论从任意分布生成随机变量的方法，这些方法无一例外地基于均匀随机数生成器.
+\section{随机数}
+任何蒙特卡罗方法的核心都是一个随机数生成器：一个产生无限流的过程
+$$U_1,U_2,U_3,\dots,\sim Dist$$
+是根据某些概率分布$Dist$的独立同分布(iid)的随机变量. 当该分布是在区间(0,1)（即$Dist = (0,1)$）上的均匀分布时，该生成器被称为均匀随机数生成器. 大多数计算机语言已经包含了一个内置的统一随机数生成器. 用户通常只被要求输入一个初始数字，称为\textbf{Seed}，在调用时，随机数生成器在区间(0,1)上产生一系列独立的均匀随机变量序列. 例如，在\texttt{Matlab}中，由\texttt{rand}函数提供.
+
+无限独立同分布随机变量序列的概念是一个数学抽象，可能无法在计算机上实现。在实践中，人们最多只能希望产生一系列具有与真实独立同分布随机变量序列无法区分的统计特性的“随机”数字。虽然基于普遍背景辐射或量子力学的物理生成方法似乎提供了这种真正随机性的稳定来源，但当前绝大多数随机数生成器都基于可以在计算机上轻松实现的简单算法。根据\citet{l1994uniform}的观点，这种算法可以表示为一个元组 $(\mathcal{S}, f, \mu, \mathcal{U}, g)$，其中
+\begin{itemize}
+	\item $\mathcal{S}$ 是有限状态集，
+	\item $f$ 是从 $\mathcal{S}$ 到 $\mathcal{S}$ 的函数，
+	\item $\mu$ 是 $\mathcal{S}$ 上的概率分布，
+	\item $\mathcal{U}$ 是输出空间；对于均匀随机数生成器，$\mathcal{U}$ 是区间 $(0,1)$，除非另有说明，
+	\item $g$ 是从 $\mathcal{S}$ 到 $\mathcal{U}$ 的函数。
+\end{itemize}
+
+
+\subsection{好的随机数生成器的性质}
+
+
+\renewcommand{\bibname}{References}
+\bibliographystyle{plainnat}  % Choose a bibliographic style that suits your needs
+\bibliography{chapter1_bib}  % This is your BibTeX file for chapter 1
