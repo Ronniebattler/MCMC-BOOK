@@ -1,0 +1,206 @@
+\documentclass[UTF8,12pt,twoside]{ctexart}
+
+\usepackage{geometry}%排版
+
+%%%%%%%%%%%%数学%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}%公式
+\usepackage{amsthm}%定理环境
+%\usepackage{ntheorem}%定理环境，使用这个会使\maketitle版式出问题
+\usepackage{mathrsfs}
+\usepackage{witharrows}
+
+\numberwithin{equation}{section}%对公式以节{section}为基础进行编号.变成（1.1.1）有chapter才有1.1.1，不然只有section是1.1
+%\theoremstyle{plain}%定理用latex默认的版式
+\newtheorem{thm}{Theorem}[section]
+%\theoremstyle{definition}%定义用definition格式
+\newtheorem{defn}{Definition}
+%\theoremstyle{remark}%用remark格式
+\newtheorem{lemma}[thm]{lemma}
+\newtheorem{example}{Example}[section]
+\newtheorem{Algorithm}{算法}[section]
+\usepackage{bm}%加粗
+
+
+
+%%%%%%%%%%%%表格%%%%%%%%%%%%
+\usepackage{multirow}%表格列合并宏包，\multirow命令.
+\usepackage{tabularx}%表格等宽，\begin{tabularx}命令.
+	
+%%%%%%%%%%%%图片%%%%%%%%%%%%	
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfigure} %插入多图时用子图显示的宏包
+	
+%%%%%%%%%%%%算法%%%%%%%%%%%%
+%\usepackage{algorithm,algorithmic}%算法
+\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+	
+%%%%%%%%%%%%代码%%%%%%%%%%%%	
+%\usepackage{minted}
+	
+%%%%%%%%%%%%盒子%%%%%%%%%%%%%
+%main
+\usepackage{varwidth}
+\usepackage{tikz}
+\usetikzlibrary{calc} % 引入 calc 库以使用高级坐标计算
+%\usepackage{xeCJK}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{xparse,hooks,skins,breakable}
+\tcbuselibrary{listings}
+\usepackage{fontawesome}
+\usepackage{mdframed}
+\usepackage{xcolor}	
+\input{box.tex}	
+	
+%\tcbuselibrary{skins, breakable}% 支持文本框跨页
+	
+%%%%%%%%%%%%参考文献%%%%%%%%%%%%%
+\usepackage[round]{natbib}
+	
+%%%%%%%%%%%%其他%%%%%%%%%%%%%
+\usepackage[english]{babel}% 载入美式英语断字模板
+\usepackage{caption}
+\usepackage{enumitem}
+	
+	
+\usepackage{marginnote}
+%\usepackage{xcolor} % 用于颜色设置
+\usepackage{lipsum} % 生成示例文本
+\usepackage{ifthen} % 提供条件判断命令
+\usepackage{graphicx}
+	
+% 定义边注颜色
+\definecolor{mynotecolor}{rgb}{0.6, 0.4, 0.2} % 棕色
+	
+\newcommand{\mymarginnote}[1]{
+	\ifthenelse{\isodd{\value{page}}}
+	{\normalmarginpar\marginnote{\textcolor{mynotecolor}{#1}}} % 奇数页的边注
+	{\reversemarginpar\marginnote{\textcolor{mynotecolor}{#1}}} % 偶数页的边注
+}
+	
+	
+%%%%%%%%%%%%标题页%%%%%%%%%%%%%
+\title{Importance sampling}
+\author{Renhe W.}
+\date{ }
+	
+\begin{document}
+	\captionsetup[figure]{labelfont={bf},labelformat={default},labelsep=period,name={图}}%设置图注
+	\newgeometry{left=3cm,right=3cm,top=3cm,bottom=3cm}
+	\pagestyle{empty} % 可选，如果您不想在标题页和目录页显示页眉和页脚
+		
+	\maketitle
+	\tableofcontents%目录
+	\listoffigures%图片目录
+	\listoftables%表格目录
+	\newpage
+	\kaishu
+	
+	% 恢复双面布局
+	\restoregeometry
+	\pagestyle{headings} % 恢复页眉和页脚
+	
+		
+	%------------------------------------------- 
+	\section{Importance Sampling}
+	重要性抽样（Importance Sampling）是一种用于估计概率分布性质的统计方法，特别是在计算期望值或概率密度函数的归一化常数时非常有用. 它通过从一个不同的提议分布中抽样，来估计原始分布的性质. 重要性抽样是最重要的方差减小技术之一。这种技术对于估计罕见事件的概率（见第10章）特别有用. 标准设置是估计一个量:
+	\begin{equation}
+		\ell=\mathbb{E}_f H(\mathbf{X})=\int H(\mathbf{x}) f(\mathbf{x}) \mathrm{d} \mathbf{x},
+	\end{equation}
+	其中$H$是一个实值函数，$f$是随机向量$\mathbf{X}$的概率密度，称为名义概率密度。下标$f$被添加到期望算子以表示它是相对于密度$f$进行的.
+	
+	令$g$是另一个概率密度，使得$H f$被$g$所主导. 也就是说，$g(\mathbf{x})=0 \Rightarrow H(\mathbf{x}) f(\mathbf{x})=0$。使用密度$g$，我们可以表示$\ell$如下：
+	\begin{equation}
+		\ell=\int H(\mathbf{x}) \frac{f(\mathbf{x})}{g(\mathbf{x})} g(\mathbf{x}) \mathrm{d} \mathbf{x}=\mathbb{E}_g H(\mathbf{X}) \frac{f(\mathbf{X})}{g(\mathbf{X})}.
+	\end{equation}
+	因此，如果$\mathbf{X}_1, \ldots, \mathbf{X}_N \sim_{\text {idd }} g$，那么
+	\begin{equation}
+		\widehat{\ell}=\frac{1}{N} \sum_{k=1}^N H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}
+	\end{equation}
+	是$\ell$的无偏估计。这个估计被称为重要性抽样估计，$g$被称为重要性抽样密度. 密度比值为：
+	\begin{equation}
+		W(\mathbf{x})=\frac{f(\mathbf{x})}{g(\mathbf{x})},
+	\end{equation}
+	被称为似然比（本书定义），因为似然通常在统计学中被视为参数的函数（见第B.2节）. 通常也可以称为重要性权重（importance weight）.
+	
+	
+	
+	\begin{Algorithm}[重要性抽样估计]重要性抽样估计的具体算法步骤为：
+		\begin{enumerate}
+			\item 选择一个主导$Hf$的重要性抽样密度$g$.
+			\item  生成独立同分布的样本$\mathbf{X}_1, \ldots, \mathbf{X}_N \stackrel{\text{idd}}{\sim} g$，并令$Y_i=H\left(\mathbf{X}_i\right) f\left(\mathbf{X}_i\right) / g\left(\mathbf{X}_i\right), i=1, \ldots, N$.
+			\item 通过$\widehat{\ell}=\bar{Y}$估计$\ell$，并确定一个近似的$1-\alpha$置信区间，如下所示：
+			$$
+			\left(\widehat{\ell}-z_{1-\alpha / 2} \frac{S}{\sqrt{N}}, \widehat{\ell}+z_{1-\alpha / 2} \frac{S}{\sqrt{N}}\right),
+			$$
+			其中$z_\gamma$表示$\mathrm{N}(0,1)$分布的$\gamma$分位数，$S$是$Y_1, \ldots, Y_N$的样本标准差。
+		\end{enumerate}
+		
+		
+	\end{Algorithm}
+	
+	
+	\begin{simplesquarebox}[无偏性]{证明}[1.5][colback=gray]
+		\begin{proof}
+			假设我们从提议分布 $g$ 中抽取了 $N$个独立同分布的样本 $\mathbf{X}_1, \ldots, \mathbf{X}_N$ ，然后计算每个样本的加权值 $H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}$ 。那么, $\ell$ 的估计值 $\hat{\ell}$ 为:
+			$$
+			\hat{\ell}=\frac{1}{N} \sum_{k=1}^N H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}
+			$$
+			
+			由于期望的线性性质，我们有:
+			$$
+			\mathbb{E}_g[\hat{\ell}]=\mathbb{E}_g\left[\frac{1}{N} \sum_{k=1}^N H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}\right]=\frac{1}{N} \sum_{k=1}^N \mathbb{E}_g\left[H\left(\mathbf{X}_k\right) \frac{f\left(\mathbf{X}_k\right)}{g\left(\mathbf{X}_k\right)}\right]
+			$$
+			
+			由于每个 $\mathbf{X}_k$ 都是从 $g$ 中独立抽取的，它们有相同的分布，所以:
+			$$
+			\mathbb{E}_g[\hat{\ell}]=\mathbb{E}_g\left[H(\mathbf{X}) \frac{f(\mathbf{X})}{g(\mathbf{X})}\right]=\mathbb{E}_f[H(\mathbf{X})]
+			$$
+			
+			即 $\hat{\ell}$ 是 $\ell$ 的无偏估计。
+		\end{proof}
+	\end{simplesquarebox}
+	
+	\section{一个正态分布简单的例子}
+	
+	
+	\begin{example}[Toy Example]
+		估计一个标准正态分布 (目标分布) 下的函数 $H(x)=x^2$ 的期望值. 概率密度函数 $f(x)$ 为 $\mathcal{N}(0,1)$ ，即均值为 0 ，标准差为 1 的正态分布. 
+	\end{example}
+	\ascboxB[B]{求解过程:}
+	
+	
+	\begin{itemize}[itemsep=10pt, parsep=5pt]
+		\item 估计目标\\
+			我们的目标是估计 $\mathbb{E}_f[H(X)]=\mathbb{E}_f\left[X^2\right]$.
+		\item 提议分布 $g(x)$\\
+		为简单示范，这里选择了一个均值为 2 的正态分布作为提议分布 $g(x)$ ，即 $\mathcal{N}(2,1)$.
+		\item 抽样和权重计算\\
+		我们从提议分布 $g(x)$ 中生成了 $N$ 个样本。对于每个样本 $x_i$ ，我们计算了重要性权重 $w_i$ ，这是目标分布 $f\left(x_i\right)$ 和提议分布 $g\left(x_i\right)$ 的概率密度之比，即 $w_i=\frac{f\left(x_i\right)}{g\left(x_i\right)}$.
+		\item 估计期望值\\
+		重要性抽样估计器 $\hat{\ell}$ 是加权平均值，即
+		$
+		\hat{\ell}=\frac{\sum_{i=1}^N w_i H\left(x_i\right)}{\sum_{i=1}^N w_i}
+		$，
+		这里， $\hat{\ell}$ 是 $H(X)$ 在目标分布 $f(x)$ 下的估计期望值.
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\linewidth]{Toy example.eps} % 图片文件的名称和路径
+		\caption{一个正态分布简单的例子}
+		\label{fig:Toy example} % 可以用来引用图片
+	\end{figure}
+	
+	
+	
+	%参考文献
+	%-------------------------------------------
+	\newpage
+	\bibliographystyle{plainnat}%
+	\bibliography{refs.bib}
+\end{document}
